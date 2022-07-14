@@ -1,46 +1,23 @@
 package Cafe;
 
-
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import static javax.swing.JOptionPane.showMessageDialog;
-
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Image;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.SystemColor;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.awt.event.ActionEvent;
-import java.util.Date;
-import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 
 public class Add_menuUI extends JFrame {
 
-	Connection con = null;
-	Statement stmt = null;
-	PreparedStatement ps = null;
-	String url = "jdbc:oracle:thin:@localhost:1521:XE"; 
-	String id = "CAFE"; 
-	String password = "1234";
-	
 	private JPanel contentPane;
 	private JTextField name, price, Caffeine;
 	private JLabel name2, price2, Caffeine2;
@@ -48,8 +25,6 @@ public class Add_menuUI extends JFrame {
 	private JRadioButton coffee;
 	private JRadioButton ade;
 	private JRadioButton tea;
-	int set;
-	
 	
 	public Add_menuUI() {
 		setTitle("\uBA54\uB274\uB4F1\uB85D");
@@ -153,17 +128,6 @@ public class Add_menuUI extends JFrame {
 		save = new JButton("<HTML>\uBA54\uB274<br>\uB4F1\uB85D<HTML>");
 		save.setBackground(Color.WHITE);
 		save.setFont(new Font("맑은 고딕", Font.BOLD, 16));
-		save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (coffee.isSelected())
-					set = 1;
-				if (ade.isSelected())
-					set = 2;
-				if (tea.isSelected())
-					set = 3;
-				Menu_Management();
-			}
-		});
 		save.setBounds(212, 311, 87, 59);
 		contentPane.add(save);
 		
@@ -172,54 +136,62 @@ public class Add_menuUI extends JFrame {
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(51, 30, 247, 27);
 		contentPane.add(lblNewLabel);
+		
+		// save 버튼 누를 때
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int set = 0;
+				if (coffee.isSelected())
+					set = 1;
+				if (ade.isSelected())
+					set = 2;
+				if (tea.isSelected())
+					set = 3;
+			
+				if (set == 0) {
+					JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					Menu_save(set);
+				}
+			}
+		});
+	}
+	
+protected void Menu_save(int set) {
+	String insert_name = name.getText();
+	String temp_price = price.getText();
+	String insert_Caffeine = Caffeine.getText();
+	String temp = "";
+	
+	if(insert_name.equals(temp) || temp_price.equals(temp) || insert_Caffeine.equals(temp)) {
+		JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
+		return;
 	}
 
-	public void Menu_Management() {
-		long milli = System.currentTimeMillis();
-		try {
-			// 로드
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			// 연결
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "CAFE", "1234");
-			System.out.println("DB 연결 성공");
-			switch (set) {
-			case 1:
-				ps = con.prepareStatement("INSERT INTO 커피 VALUES(?,?,?,?)");
-				break;
-			case 2:
-				ps = con.prepareStatement("INSERT INTO 에이드 VALUES(?,?,?,?)");
-				break;
-			case 3:
-				ps = con.prepareStatement("INSERT INTO 차 VALUES(?,?,?,?)");
-				break;
-			}
-			ps.setString(1, name.getText());
-			ps.setString(2, price.getText());
-			ps.setString(3, Caffeine.getText());
-			ps.setDate(4,  new java.sql.Date(milli));
-			ps.execute();
-			ps.close();
-			JOptionPane.showMessageDialog(null, "메뉴등록 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
-		} catch (ClassNotFoundException e) {
-			System.out.println(e + "=> 로드 fail(Menu_Mana)");
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
-		}
-	}
+	insert_name = insert_name.trim();
+	temp_price = temp_price.trim();
+	insert_Caffeine = insert_Caffeine.trim();
+	int insert_price = Integer.parseInt(temp_price);
+	
+	Menu_DAO dao = new Menu_DAO();
+	Menu_DTO dto = new Menu_DTO();	
+	
+	dto.setName(insert_name);
+	dto.setPrice(insert_price);
+	dto.setCaffeine(insert_Caffeine);
 
-	
-	
-public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-		public void run() {
-			try {
-				Add_menuUI frame = new Add_menuUI();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	});
+	boolean Success = dao.Menu_insert(dto, set);
+	if(Success) {
+		JOptionPane.showMessageDialog(null, "메뉴등록 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
+	}
+	else {
+		JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
+	}
 }
+
+public static void main(String[] args) {
+	Add_menuUI frame = new Add_menuUI();
+	frame.setVisible(true);
+	}
 }

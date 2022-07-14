@@ -1,8 +1,5 @@
 package Cafe;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -38,8 +35,6 @@ public class AdminUI extends JFrame {
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(96, 41, 173, 27);
 		contentPane.add(lblNewLabel);
-		
-	
 		
 		// 메뉴 수정
 		editmenu = new JButton("<HTML>\uBA54\uB274<br>\uC218\uC815<HTML>");
@@ -116,15 +111,7 @@ public class AdminUI extends JFrame {
 
 
 public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-		public void run() {
-			try {
-				AdminUI frame = new AdminUI();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	});
-}
+	AdminUI frame = new AdminUI();
+	frame.setVisible(true);
+	}
 }
