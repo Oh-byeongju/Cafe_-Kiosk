@@ -23,10 +23,10 @@ public class Order_DAO {
 		}
 
 
-	public ArrayList<Order_DTO> Menu_Order(String menu_name, String title) throws SQLException {
+	public ArrayList<Order_DTO> Menu_Order(String menu_name) throws SQLException {
 
 		ArrayList<Order_DTO> result = new ArrayList<Order_DTO>();
-		String query = String.format("select 이름,가격 from %s where 이름 = '%s'", title, menu_name);
+		String query = String.format("select 이름,가격 from 음료 where 이름 = '%s'", menu_name);
 
 		try { DB_Connect();
 			stmt = con.createStatement();

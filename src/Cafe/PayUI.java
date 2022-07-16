@@ -56,9 +56,9 @@ public class PayUI extends JFrame {
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			public void run(ArrayList<String> Menu_Name, ArrayList<Integer> Price) {
+			public void run(ArrayList<String> Menu_list, ArrayList<Integer> Price) {
 				try {
-					PayUI frame = new PayUI(Menu_Name, Price);
+					PayUI frame = new PayUI(Menu_list, Price);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

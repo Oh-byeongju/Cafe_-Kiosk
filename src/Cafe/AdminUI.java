@@ -38,14 +38,14 @@ public class AdminUI extends JFrame {
 		
 		// 메뉴 수정
 		editmenu = new JButton("<HTML>\uBA54\uB274<br>\uC218\uC815<HTML>");
-		editmenu.setBounds(50, 93, 98, 84);
+		editmenu.setBounds(209, 93, 98, 84);
 		contentPane.add(editmenu);
 		editmenu.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		editmenu.setBackground(Color.WHITE);
-
+		
 		// 메뉴 추가
 		addmenu = new JButton("<HTML>\uBA54\uB274<br>\uB4F1\uB85D<HTML>");
-		addmenu.setBounds(209, 93, 98, 84);
+		addmenu.setBounds(50, 93, 98, 84);
 		contentPane.add(addmenu);
 		addmenu.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		addmenu.setBackground(Color.WHITE);
@@ -66,14 +66,14 @@ public class AdminUI extends JFrame {
 
 		// 주문기록삭제
 		orderdel = new JButton("<HTML>\uC8FC\uBB38<br>\uAE30\uB85D<br>\uC0AD\uC81C</HTML>");
-		orderdel.setBounds(50, 331, 98, 84);
+		orderdel.setBounds(209, 331, 98, 84);
 		contentPane.add(orderdel);
 		orderdel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		orderdel.setBackground(Color.WHITE);
-
+		
 		// 주문기록조회
 		ordersearch = new JButton("<HTML>\uC8FC\uBB38<br>\uAE30\uB85D<br>\uC870\uD68C</HTML>");
-		ordersearch.setBounds(209, 331, 98, 84);
+		ordersearch.setBounds(50, 331, 98, 84);
 		contentPane.add(ordersearch);
 		ordersearch.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		ordersearch.setBackground(Color.WHITE);
@@ -104,6 +104,22 @@ public class AdminUI extends JFrame {
 				dispose();
 				JFrame Add_menuUI = new Add_menuUI();
 				Add_menuUI.setVisible(true);
+			}
+		});
+		
+		editmenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Update_listUI Update_listUI = new Update_listUI();
+				Update_listUI.setVisible(true);
+			}
+		});
+		
+		delmenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Delete_listUI Delete_listUI = new Delete_listUI();
+				Delete_listUI.setVisible(true);
 			}
 		});
 

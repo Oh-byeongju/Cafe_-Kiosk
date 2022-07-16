@@ -79,13 +79,6 @@ public class AdminLogin extends JFrame {
 					Password.setText("");
 			}
 		});
-		
-	}
-
-
-public static void main(String[] args) {
-	AdminLogin frame = new AdminLogin();
-	frame.setVisible(true);
 	}
 }
 

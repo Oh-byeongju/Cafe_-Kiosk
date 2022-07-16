@@ -1,27 +1,27 @@
 package Cafe;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Image;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-public class Add_menuUI extends JFrame {
+public class Update_menuUI extends JFrame{
 
 	private JPanel contentPane;
-	private JTextField name, price, Caffeine;
+	private JTextField name, price;
 	private JLabel name2, price2, Caffeine2;
 	private JButton save, back;
 	private JRadioButton coffee;
@@ -29,8 +29,17 @@ public class Add_menuUI extends JFrame {
 	private JRadioButton tea;
 	String Caffeines [] = {"유", "무"};
 	
-	public Add_menuUI() {
-		setTitle("\uBA54\uB274\uB4F1\uB85D");
+	public Update_menuUI(String [] info) {
+		
+		String [] menu_info = info;
+		int Caffeine_type = 0;
+		String str = menu_info[3];
+			
+		if (menu_info[2].equals("무")) {
+			Caffeine_type = 1;
+		}
+		
+		setTitle("메뉴수정");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 100, 375, 490);
 		contentPane = new JPanel();
@@ -44,7 +53,10 @@ public class Add_menuUI extends JFrame {
 		name.setBounds(139, 91, 160, 27);
 		contentPane.add(name);
 		name.setColumns(10);
-
+		name.setText(menu_info[0]);
+		name.setForeground(Color.black);
+		name.setEditable(false);
+		
 		// 이름 설명
 		name2 = new JLabel("\uC774\uB984 : ");
 		name2.setFont(new Font("맑은 고딕", Font.BOLD, 16));
@@ -58,6 +70,7 @@ public class Add_menuUI extends JFrame {
 		price.setColumns(10);
 		price.setBounds(139, 147, 160, 27);
 		contentPane.add(price);
+		price.setText(menu_info[1]);
 
 		// 가격 설명
 		price2 = new JLabel("\uAC00\uACA9 : ");
@@ -70,6 +83,7 @@ public class Add_menuUI extends JFrame {
 		// 카페인 체크
 		JComboBox combo = new JComboBox(Caffeines);
 		combo.setBounds(139, 204, 160, 27);
+		combo.setSelectedIndex(Caffeine_type);
 		contentPane.add(combo);
 
 		// 카페인 설명
@@ -96,8 +110,8 @@ public class Add_menuUI extends JFrame {
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				JFrame AdminUI = new AdminUI();
-				AdminUI.setVisible(true);
+				Update_listUI Update_listUI = new Update_listUI();
+				Update_listUI.setVisible(true);
 			}
 		});
 
@@ -126,14 +140,26 @@ public class Add_menuUI extends JFrame {
 		tea.setBounds(237, 261, 41, 27);
 		contentPane.add(tea);
 		Group.add(tea);
+		
+		switch(str) {
+	        case "커피" :
+	        	coffee.setSelected(true);
+	            break;
+	        case "에이드" :
+	        	ade.setSelected(true);
+	            break;
+	        case "차" :
+	        	tea.setSelected(true);
+	            break;
+		}
 
-		save = new JButton("<HTML>\uBA54\uB274<br>\uB4F1\uB85D<HTML>");
+		save = new JButton("<HTML>메뉴<br>수정<HTML>");
 		save.setBackground(Color.WHITE);
 		save.setFont(new Font("맑은 고딕", Font.BOLD, 16));
 		save.setBounds(212, 311, 87, 59);
 		contentPane.add(save);
 		
-		JLabel lblNewLabel = new JLabel("\uBA54\uB274 \uC815\uBCF4\uB97C \uC785\uB825\uD558\uC138\uC694");
+		JLabel lblNewLabel = new JLabel("메뉴 정보를 수정하세요");
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 22));
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(51, 30, 247, 27);
@@ -162,17 +188,17 @@ public class Add_menuUI extends JFrame {
 	}
 	
 	protected void Menu_save(int set, String Caffeine) {
-		String insert_name = name.getText();
+		String update_name = name.getText();
 		String temp_price = price.getText();
 		String insert_Caffeine = Caffeine;
 		String temp = "";
 		
-		if(insert_name.equals(temp) || temp_price.equals(temp)) {
+		if(temp_price.equals(temp)) {
 			JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 	
-		insert_name = insert_name.trim();
+		update_name = update_name.trim();
 		temp_price = temp_price.trim();
 		insert_Caffeine = insert_Caffeine.trim();
 		int insert_price = Integer.parseInt(temp_price);
@@ -180,16 +206,17 @@ public class Add_menuUI extends JFrame {
 		Menu_DAO dao = new Menu_DAO();
 		Menu_DTO dto = new Menu_DTO();	
 		
-		dto.setName(insert_name);
+		dto.setName(update_name);
 		dto.setPrice(insert_price);
 		dto.setCaffeine(insert_Caffeine);
 	
-		boolean Success = dao.Menu_insert(dto, set);
+		boolean Success = dao.Menu_update(dto, set);
 		if(Success) {
-			JOptionPane.showMessageDialog(null, "메뉴등록 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "메뉴수정 완료!", "성공", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else {
 			JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
 		}
 	}
-}
+}	
+

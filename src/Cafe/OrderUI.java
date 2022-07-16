@@ -355,10 +355,9 @@ public class OrderUI extends JFrame {
 		Coffee1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "아메리카노";
-				String title = "커피";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -375,10 +374,9 @@ public class OrderUI extends JFrame {
 		Coffee2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "에스프레소";
-				String title = "커피";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -395,10 +393,9 @@ public class OrderUI extends JFrame {
 		Coffee3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "카페라떼";
-				String title = "커피";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -415,10 +412,9 @@ public class OrderUI extends JFrame {
 		Coffee4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "바닐라라떼";
-				String title = "커피";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -436,10 +432,9 @@ public class OrderUI extends JFrame {
 		Ade1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "레몬에이드";
-				String title = "에이드";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -456,10 +451,9 @@ public class OrderUI extends JFrame {
 		Ade2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "청포도에이드";
-				String title = "에이드";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -476,10 +470,9 @@ public class OrderUI extends JFrame {
 		Ade3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "자몽에이드";
-				String title = "에이드";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -496,10 +489,9 @@ public class OrderUI extends JFrame {
 		Ade4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "체리콕";
-				String title = "에이드";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -516,10 +508,9 @@ public class OrderUI extends JFrame {
 		Tea1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "아이스티";
-				String title = "차";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -536,10 +527,9 @@ public class OrderUI extends JFrame {
 		Tea2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "유자차";
-				String title = "차";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -556,10 +546,9 @@ public class OrderUI extends JFrame {
 		Tea3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "캐모마일";
-				String title = "차";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -576,10 +565,9 @@ public class OrderUI extends JFrame {
 		Tea4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = "페퍼민트";
-				String title = "차";
 				if (Menu_list.contains(name) == false) {
 					try {
-						Menu_Call(name, title);
+						Menu_Call(name);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -666,44 +654,40 @@ public class OrderUI extends JFrame {
 		});
 }
 
-// 메뉴 추가 함수
-public void Menu_Call(String name, String title) throws SQLException {
-	
-	Order_DAO dao = new Order_DAO();
-	ArrayList<Order_DTO> result = dao.Menu_Order(name, title);
-	String row[] = new String[2];
-	int temp_price = 0;
-	
-    for (Order_DTO i : result) {
-    	temp_price = i.getPrice();
-        row[0] = i.getName();
-        row[1] = Integer.toString(temp_price);
-        model.addRow(row);
-        Menu_list.add(row[0]);
-        Price.add(Integer.parseInt(row[1]));
-    }
-}	
+	// 메뉴 추가 함수
+	public void Menu_Call(String name) throws SQLException {
+		
+		Order_DAO dao = new Order_DAO();
+		ArrayList<Order_DTO> result = dao.Menu_Order(name);
+		String row[] = new String[2];
+		int temp_price = 0;
+		
+	    for (Order_DTO i : result) {
+	    	temp_price = i.getPrice();
+	        row[0] = i.getName();
+	        row[1] = Integer.toString(temp_price);
+	        model.addRow(row);
+	        Menu_list.add(row[0]);
+	        Price.add(Integer.parseInt(row[1]));
+	    }
+	}	
 
 	
-// 메뉴 삭제 버튼 누를시
-public void Menudelete() {
-	int row = table.getSelectedRow();
-	
-	// 메뉴 선택을 안하고 메뉴를 삭제한 경우
-	if (row == -1) {
-        JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요!", "삭제", JOptionPane.INFORMATION_MESSAGE);
-        return;
+	// 메뉴 삭제 버튼 누를시
+	public void Menudelete() {
+		int row = table.getSelectedRow();
+		// 메뉴 선택을 안하고 메뉴를 삭제한 경우
+		if (row == -1) {
+	        JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요!", "삭제", JOptionPane.INFORMATION_MESSAGE);
+	        return;
+		}
+		model.removeRow(row);
+		Menu_list.remove(row); 
+		Price.remove(row); 
 	}
-
-	model.removeRow(row);
-	Menu_list.remove(row); 
-	Price.remove(row); 
-
-}
-
-
-public static void main(String[] args) {
-		OrderUI frame = new OrderUI();
-		frame.setVisible(true);
+	
+	public static void main(String[] args) {
+			OrderUI frame = new OrderUI();
+			frame.setVisible(true);
+		}
 	}
-}
