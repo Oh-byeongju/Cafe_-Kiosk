@@ -3,12 +3,12 @@ ID : CAFE
 비번 : 1234
 */
 
-drop table 음료;
+DROP TABLE 음료_주문기록;
+DROP TABLE 음료;
+DROP TABLE 주문기록;
 
-select * from 음료;
-
-CREATE SEQUENCE BER_SEQ;
-DROP SEQUENCE BER_SEQ;
+DROP SEQUENCE ORDER_SEQ;
+CREATE SEQUENCE ORDER_SEQ;
 
 CREATE TABLE 음료(
     이름  VARCHAR(20) NOT NULL,
@@ -20,7 +20,25 @@ CREATE TABLE 음료(
     PRIMARY KEY(이름)
 );
 
+CREATE TABLE 주문기록(
+    주문번호 INT,
+    주문일시 DATE,
+    합계 INT,
+    포장여부 VARCHAR(10),
+    PRIMARY KEY(주문번호)
+);
 
+CREATE TABLE 음료_주문기록(
+    이름 VARCHAR(20),
+    주문번호 INT,
+    수량 INT,
+    시가 INT,
+    CONSTRAINT PRI_KEY PRIMARY KEY(이름, 주문번호),
+    CONSTRAINT FOR_KEY FOREIGN KEY(이름) REFERENCES 음료(이름),
+    CONSTRAINT FOR_KEY2 FOREIGN KEY(주문번호) REFERENCES 주문기록(주문번호)
+);
+   
+-- 음료 INSERT    
 INSERT INTO 음료 VALUES ('아메리카노', '1500', '유', '커피', '2021-12-05');
 INSERT INTO 음료 VALUES ('에스프레소', '1500', '유', '커피', '2022-06-10');
 INSERT INTO 음료 VALUES ('카페라떼', '2000', '유', '커피', '2022-03-05');
@@ -35,3 +53,547 @@ INSERT INTO 음료 VALUES ('아이스티', '2000', '무', '차', '2022-01-23');
 INSERT INTO 음료 VALUES ('유자차', '2500', '무', '차', '2021-12-22');
 INSERT INTO 음료 VALUES ('캐모마일', '2500', '무', '차', '2021-04-21');
 INSERT INTO 음료 VALUES ('페퍼민트', '2500', '무', '차', '2021-05-20');
+
+--SELECT * FROM 음료;
+--SELECT * FROM 주문기록;
+--SELECT * FROM 음료_주문기록;
+
+-- 주문기록 INSERT
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-07', '6000', '포장'); -- 아메 한잔, 에스프레소 한잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-09', '6500', '포장');-- 아메 한잔, 카페라떼 한잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'1','2000');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-10', '6000', '매장');-- 아메 4잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-11', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 청포도에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-14', '9000', '포장');-- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-16', '9000', '포장');-- 바닐라라떼 3잔
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-19', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 자몽에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-21', '6000', '매장');-- 아메2잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-22', '7500', '포장');-- 아메2잔, 에스프레소 한잔, 레몬에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-24', '6000', '포장'); -- 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-26', '7500', '포장'); -- 아메리카노 한잔, 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-27', '7500', '포장'); -- 유자차 3잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-28', '7500', '포장'); -- 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-03-29', '7500', '포장'); -- 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-01', '7000', '매장'); -- 레몬에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-02', '7000', '매장'); -- 청포도에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-03', '7000', '포장'); -- 자몽에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-04', '7000', '포장'); -- 체리콕 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-07', '13000', '포장'); -- 아메리카노 4잔, 청포도에이드 한잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-09', '13000', '포장'); -- 아메리카노 2잔, 레몬에이드 2잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-12', '13000', '포장'); -- 아메리카노 2잔, 자몽에이드 2잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-14', '10000', '포장'); -- 아이스티 5잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'5','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-15', '13000', '포장'); -- 아메리카노 6잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'6','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-17', '15000', '포장'); -- 아메리카노 한잔, 체리콕 2잔, 유자차 3잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-19', '15000', '포장'); -- 아메리카노 한잔, 레몬에이드 2잔, 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-21', '15000', '포장'); -- 아메리카노 한잔, 청포도에이드 2잔, 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-23', '9000', '매장'); -- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-24', '8000', '매장'); -- 카페라떼 4잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-25', '7500', '포장'); -- 유자차 한잔, 캐모마일 한잔, 페퍼민트 한잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'1','2500');
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'1','2500');
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'1','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-27', '9000', '포장'); -- 레몬에이드 한잔, 자몽에이드 한잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-28', '9000', '포장'); -- 청포도에이드 3잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-04-30', '8000', '포장'); -- 아이스티 4잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-02', '6000', '포장'); -- 아메 한잔, 에스프레소 한잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-04', '6500', '포장');-- 아메 한잔, 카페라떼 한잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'1','2000');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-05', '6000', '매장');-- 아메 4잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-07', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 청포도에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-09', '9000', '포장');-- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-11', '9000', '포장');-- 바닐라라떼 3잔
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-13', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 자몽에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-14', '13000', '포장'); -- 아메리카노 2잔, 자몽에이드 2잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-15', '10000', '포장'); -- 아이스티 5잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'5','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-17', '13000', '포장'); -- 아메리카노 6잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'6','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-18', '15000', '포장'); -- 아메리카노 한잔, 체리콕 2잔, 유자차 3잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-19', '15000', '포장'); -- 아메리카노 한잔, 레몬에이드 2잔, 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-21', '15000', '포장'); -- 아메리카노 한잔, 청포도에이드 2잔, 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-23', '9000', '매장'); -- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-24', '8000', '매장'); -- 카페라떼 4잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-25', '7500', '포장'); -- 유자차 한잔, 캐모마일 한잔, 페퍼민트 한잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'1','2500');
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'1','2500');
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'1','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-25', '9000', '포장'); -- 레몬에이드 한잔, 자몽에이드 한잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-26', '9000', '포장'); -- 청포도에이드 3잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-26', '8000', '포장'); -- 아이스티 4잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-27', '6000', '매장');-- 아메2잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-28', '7500', '포장');-- 아메2잔, 에스프레소 한잔, 레몬에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-30', '6000', '포장'); -- 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-05-31', '7500', '포장'); -- 아메리카노 한잔, 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-01', '7500', '포장'); -- 유자차 3잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-02', '7500', '포장'); -- 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-02', '7500', '포장'); -- 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-03', '7000', '매장'); -- 레몬에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-05', '7000', '매장'); -- 청포도에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-05', '7000', '포장'); -- 자몽에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-06', '7000', '포장'); -- 체리콕 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-07', '13000', '포장'); -- 아메리카노 4잔, 청포도에이드 한잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-07', '13000', '포장'); -- 아메리카노 2잔, 레몬에이드 2잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-09', '13000', '포장'); -- 아메리카노 2잔, 자몽에이드 2잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-11', '10000', '포장'); -- 아이스티 5잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'5','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-11', '13000', '포장'); -- 아메리카노 6잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'6','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-12', '15000', '포장'); -- 아메리카노 한잔, 체리콕 2잔, 유자차 3잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-14', '15000', '포장'); -- 아메리카노 한잔, 레몬에이드 2잔, 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-14', '15000', '포장'); -- 아메리카노 한잔, 청포도에이드 2잔, 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-15', '9000', '매장'); -- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-15', '8000', '매장'); -- 카페라떼 4잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-17', '7500', '포장'); -- 유자차 한잔, 캐모마일 한잔, 페퍼민트 한잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'1','2500');
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'1','2500');
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'1','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-18', '9000', '포장'); -- 레몬에이드 한잔, 자몽에이드 한잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-18', '9000', '포장'); -- 청포도에이드 3잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-19', '8000', '포장'); -- 아이스티 4잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-19', '6000', '포장'); -- 아메 한잔, 에스프레소 한잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-20', '6500', '포장');-- 아메 한잔, 카페라떼 한잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'1','2000');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-21', '6000', '매장');-- 아메 4잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-22', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 청포도에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-23', '9000', '포장');-- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-23', '9000', '포장');-- 바닐라라떼 3잔
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-23', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 자몽에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-24', '6000', '매장');-- 아메2잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-25', '7500', '포장');-- 아메2잔, 에스프레소 한잔, 레몬에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-25', '6000', '포장'); -- 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-26', '7500', '포장'); -- 아메리카노 한잔, 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-27', '7500', '포장'); -- 유자차 3잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-27', '7500', '포장'); -- 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-28', '7500', '포장'); -- 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-29', '7000', '매장'); -- 레몬에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-29', '7000', '매장'); -- 청포도에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-06-30', '7000', '포장'); -- 자몽에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-01', '7000', '포장'); -- 체리콕 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-01', '13000', '포장'); -- 아메리카노 4잔, 청포도에이드 한잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-01', '13000', '포장'); -- 아메리카노 2잔, 레몬에이드 2잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-02', '9000', '포장'); -- 청포도에이드 3잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-02', '8000', '포장'); -- 아이스티 4잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'4','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-03', '6000', '매장');-- 아메2잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-03', '7500', '포장');-- 아메2잔, 에스프레소 한잔, 레몬에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-03', '6000', '포장'); -- 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-05', '7500', '포장'); -- 아메리카노 한잔, 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-05', '7500', '포장'); -- 유자차 3잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-07', '7500', '포장'); -- 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-07', '7500', '포장'); -- 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-07', '7000', '매장'); -- 레몬에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-08', '7000', '매장'); -- 청포도에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-08', '7000', '포장'); -- 자몽에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-09', '7000', '포장'); -- 체리콕 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-10', '13000', '포장'); -- 아메리카노 4잔, 청포도에이드 한잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-10', '7500', '포장');-- 아메2잔, 에스프레소 한잔, 레몬에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-10', '6000', '포장'); -- 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-11', '7500', '포장'); -- 아메리카노 한잔, 아이스티 3잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'3','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-12', '7500', '포장'); -- 유자차 3잔
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-12', '7500', '포장'); -- 캐모마일 3잔
+INSERT INTO "음료_주문기록" VALUES('캐모마일',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-13', '7500', '포장'); -- 페퍼민트 3잔
+INSERT INTO "음료_주문기록" VALUES('페퍼민트',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-13', '7000', '매장'); -- 레몬에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-13', '7000', '매장'); -- 청포도에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-14', '7000', '포장'); -- 자몽에이드 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-14', '7000', '포장'); -- 체리콕 한잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-15', '13000', '포장'); -- 아메리카노 4잔, 청포도에이드 한잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'4','1500');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-15', '13000', '포장'); -- 아메리카노 2잔, 레몬에이드 2잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-15', '13000', '포장'); -- 아메리카노 2잔, 자몽에이드 2잔, 아이스티 2잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-16', '10000', '포장'); -- 아이스티 5잔
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'5','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-16', '13000', '포장'); -- 아메리카노 6잔, 아이스티 2잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'6','1500');
+INSERT INTO "음료_주문기록" VALUES('아이스티',ORDER_SEQ.CURRVAL,'2','2000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-17', '15000', '포장'); -- 아메리카노 한잔, 체리콕 2잔, 유자차 3잔 
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'1','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'2','3000');
+INSERT INTO "음료_주문기록" VALUES('유자차',ORDER_SEQ.CURRVAL,'3','2500');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-17', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 청포도에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('청포도에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-18', '9000', '포장');-- 아메리카노 2잔, 에스프레소 2잔, 바닐라라떼 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('에스프레소',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-18', '9000', '포장');-- 바닐라라떼 3잔
+INSERT INTO "음료_주문기록" VALUES('바닐라라떼',ORDER_SEQ.CURRVAL,'3','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-18', '10000', '포장');-- 카페라떼 2잔, 레몬에이드 한잔, 자몽에이드 한잔
+INSERT INTO "음료_주문기록" VALUES('카페라떼',ORDER_SEQ.CURRVAL,'2','2000');
+INSERT INTO "음료_주문기록" VALUES('레몬에이드',ORDER_SEQ.CURRVAL,'1','3000');
+INSERT INTO "음료_주문기록" VALUES('자몽에이드',ORDER_SEQ.CURRVAL,'1','3000');
+
+INSERT INTO 주문기록 VALUES(ORDER_SEQ.NEXTVAL,'2022-07-19', '6000', '매장');-- 아메2잔, 체리콕 한잔
+INSERT INTO "음료_주문기록" VALUES('아메리카노',ORDER_SEQ.CURRVAL,'2','1500');
+INSERT INTO "음료_주문기록" VALUES('체리콕',ORDER_SEQ.CURRVAL,'1','3000');
+
+COMMIT;
