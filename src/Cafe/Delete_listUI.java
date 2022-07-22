@@ -207,9 +207,4 @@ public class Delete_listUI {
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
-	
-	public static void main(String[] args) {
-		Delete_listUI window = new Delete_listUI();
-		window.frame.setVisible(true);
-	}
 }

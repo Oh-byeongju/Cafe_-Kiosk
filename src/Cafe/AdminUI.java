@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 public class AdminUI extends JFrame {
 
 	private JPanel contentPane;
-	private JButton editmenu, addmenu, delmenu, salesinq, orderdel, ordersearch, back;
+	private JButton editmenu, addmenu, delmenu, salesinq, popular, ordersearch, back;
 	
 	
 	public AdminUI() {
@@ -64,16 +64,16 @@ public class AdminUI extends JFrame {
 		salesinq.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		salesinq.setBackground(Color.WHITE);
 
-		// 주문기록삭제
-		orderdel = new JButton("<HTML>\uC8FC\uBB38<br>\uAE30\uB85D<br>\uC0AD\uC81C</HTML>");
-		orderdel.setBounds(209, 331, 98, 84);
-		contentPane.add(orderdel);
-		orderdel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		orderdel.setBackground(Color.WHITE);
+		// 인기 메뉴 조회
+		popular = new JButton("<HTML>인기<br>메뉴<br>조회</HTML>");
+		popular.setBounds(50, 331, 98, 84);
+		contentPane.add(popular);
+		popular.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		popular.setBackground(Color.WHITE);
 		
-		// 주문기록조회
-		ordersearch = new JButton("<HTML>\uC8FC\uBB38<br>\uAE30\uB85D<br>\uC870\uD68C</HTML>");
-		ordersearch.setBounds(50, 331, 98, 84);
+		// 주문 기록 점검
+		ordersearch = new JButton("<HTML>주문<br>기록<br>점검</HTML>");
+		ordersearch.setBounds(209, 331, 98, 84);
 		contentPane.add(ordersearch);
 		ordersearch.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		ordersearch.setBackground(Color.WHITE);
@@ -107,6 +107,7 @@ public class AdminUI extends JFrame {
 			}
 		});
 		
+		// 메뉴 수정 누를 시
 		editmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -115,11 +116,30 @@ public class AdminUI extends JFrame {
 			}
 		});
 		
+		// 메뉴 삭제 누를 시
 		delmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				Delete_listUI Delete_listUI = new Delete_listUI();
 				Delete_listUI.setVisible(true);
+			}
+		});
+		
+		// 매출 조회 누를 시
+		salesinq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Sales_SearchUI Sales_Search = new Sales_SearchUI();
+				Sales_Search.setVisible(true);
+			}
+		});
+		
+		// 인기 메뉴 조회 누를 시
+		popular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Popular_UI Popular_UI = new Popular_UI();
+				Popular_UI.setVisible(true);
 			}
 		});
 
