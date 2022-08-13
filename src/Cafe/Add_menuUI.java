@@ -11,7 +11,6 @@ import java.awt.Image;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
@@ -21,7 +20,7 @@ import javax.swing.ImageIcon;
 public class Add_menuUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField name, price, Caffeine;
+	private JTextField name, price;
 	private JLabel name2, price2, Caffeine2;
 	private JButton save, back;
 	private JRadioButton coffee;

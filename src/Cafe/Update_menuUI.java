@@ -110,7 +110,7 @@ public class Update_menuUI extends JFrame{
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Update_listUI Update_listUI = new Update_listUI();
+				Update_listUI Update_listUI = new Update_listUI(str);
 				Update_listUI.setVisible(true);
 			}
 		});
@@ -169,21 +169,27 @@ public class Update_menuUI extends JFrame{
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String Caffeine = combo.getSelectedItem().toString();
+				String text = null;
 				int set = 0;
-				if (coffee.isSelected())
+				
+				if (coffee.isSelected()) {
 					set = 1;
-				if (ade.isSelected())
+					text = "커피";
+				}
+				else if (ade.isSelected()) {
 					set = 2;
-				if (tea.isSelected())
+					text = "에이드";
+				}
+				else{
 					set = 3;
-			
-				if (set == 0) {
-					JOptionPane.showMessageDialog(null, "잘못된 입력 형식입니다.", "오류", JOptionPane.WARNING_MESSAGE);
+					text = "차";
 				}
-				else {
-					Menu_save(set, Caffeine);
+				
+				Menu_save(set, Caffeine);
+				dispose();
+				Update_listUI Update_listUI = new Update_listUI(text);
+				Update_listUI.setVisible(true);
 				}
-			}
 		});
 	}
 	

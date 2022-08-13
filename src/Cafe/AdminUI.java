@@ -18,7 +18,6 @@ public class AdminUI extends JFrame {
 	private JPanel contentPane;
 	private JButton editmenu, addmenu, delmenu, salesinq, popular, ordersearch, back;
 	
-	
 	public AdminUI() {
 		setTitle("\uAD00\uB9AC\uC790\uC6A9");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,7 +110,7 @@ public class AdminUI extends JFrame {
 		editmenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Update_listUI Update_listUI = new Update_listUI();
+				Update_listUI Update_listUI = new Update_listUI("미지정");
 				Update_listUI.setVisible(true);
 			}
 		});
@@ -142,12 +141,14 @@ public class AdminUI extends JFrame {
 				Popular_UI.setVisible(true);
 			}
 		});
-
-	}
-
-
-public static void main(String[] args) {
-	AdminUI frame = new AdminUI();
-	frame.setVisible(true);
+		
+		// 주문기록 조회 누를 시
+		ordersearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Record_Search_UI Record_Search_UI = new Record_Search_UI();
+				Record_Search_UI.setVisible(true);
+			}
+		});
 	}
 }

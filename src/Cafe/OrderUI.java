@@ -685,9 +685,4 @@ public class OrderUI extends JFrame {
 		Menu_list.remove(row); 
 		Price.remove(row); 
 	}
-	
-	public static void main(String[] args) {
-			OrderUI frame = new OrderUI();
-			frame.setVisible(true);
-		}
-	}
+}

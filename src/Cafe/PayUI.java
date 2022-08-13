@@ -1,42 +1,22 @@
 package Cafe;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.Image;
-
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-
-import org.w3c.dom.css.RGBColor;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import java.awt.Font;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.swing.border.*;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollBar;
-import javax.swing.JTextArea;
-import javax.swing.JList;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -44,8 +24,8 @@ import java.awt.SystemColor;
 public class PayUI extends JFrame {
 
 	private JPanel contentPane;
-	static JPanel Menu_Scroll = new JPanel();
-	static JScrollPane scroll;
+	JPanel Menu_Scroll = new JPanel();
+	JScrollPane scroll;
 	int arr_cnt = 0;
 	int flag = 0;
 	JLabel[] Count = new JLabel[100];
@@ -54,30 +34,10 @@ public class PayUI extends JFrame {
 	GridBagConstraints gbc = new GridBagConstraints();
 	GridBagLayout grid = new GridBagLayout();
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run(ArrayList<String> Menu_list, ArrayList<Integer> Price) {
-				try {
-					PayUI frame = new PayUI(Menu_list, Price);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-
-			}
-		});
-	}
-
 	public PayUI(ArrayList<String> Menu_Name, ArrayList<Integer> Price) {
 
 		int Size = Menu_Name.size();
 
-		JPanel[] Menu = new JPanel[Size];
 		JLabel[] Name = new JLabel[Size];
 		JLabel[] Pr = new JLabel[Size];
 		JButton[] up = new JButton[Size];
@@ -115,40 +75,33 @@ public class PayUI extends JFrame {
 		Sum_Price.setBounds(377, 340, 59, 23);
 		contentPane.add(Sum_Price);
 
-		// int Plus = 10;
-
+		
 		for (int i = 0; i < Size; i++) {
 			arr[i] = 1;
 			Sum = Sum + (Price.get(i) * arr[i]);
 			Name[i] = new JLabel(Menu_Name.get(i));
 			Name[i].setFont(new Font("맑은고딕", Font.BOLD, 20));
-			// Name[i].setSize(187, 44);
 			make(Name[i], 0, i, 1, 1);
 
 			Pr[i] = new JLabel(Integer.toString(Price.get(i)));
 			Pr[i].setFont(new Font("맑은고딕", Font.BOLD, 20));
-			// Pr[i].setSize(50, 50);
 			make(Pr[i], 1, i, 1, 1);
 
-			
 			up[i] = new JButton("\u25B2");
 			up[i].setFont(new Font("맑은고딕", Font.BOLD, 20));
 			up[i].setBackground(SystemColor.menu);
 			up[i].setBorderPainted(false);
-			// up[i].setSize(45, 45);
 			make(up[i], 2, i, 1, 1);
 
 			Count[i] = new JLabel(Integer.toString(arr[i]));
 			Count[i].setFont(new Font("맑은고딕", Font.BOLD, 23));
 			Count[i].setHorizontalAlignment(SwingConstants.CENTER);
-			// Count[i].setSize(45, 45);
 			make(Count[i], 3, i, 1, 1);
 
 			down[i] = new JButton("\u25BC");
 			down[i].setFont(new Font("맑은고딕", Font.BOLD, 20));
 			down[i].setBackground(SystemColor.menu);
 			down[i].setBorderPainted(false);
-			// down[i].setSize(45, 45);
 			make(down[i], 4, i, 1, 1);
 
 			Menu_Scroll.add(Name[i]);
@@ -156,7 +109,6 @@ public class PayUI extends JFrame {
 			Menu_Scroll.add(up[i]);
 			Menu_Scroll.add(Count[i]);
 			Menu_Scroll.add(down[i]);
-			// Plus += 44;
 		}
 
 		scrollPane.setViewportView(Menu_Scroll);
@@ -185,7 +137,7 @@ public class PayUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = 0; i < Size; i++) {
 						if (down[i].equals(e.getSource())) {
-							if (arr[i] > 0) {
+							if (arr[i] > 1) {
 								arr[i]--;
 								Count[i].setText(Integer.toString(arr[i]));
 								Sum = Sum - Price.get(i);
@@ -223,7 +175,31 @@ public class PayUI extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (takeout.isSelected() || hall.isSelected()) {
-					JOptionPane.showMessageDialog(null, "카드를 삽입해주세요", "결제", JOptionPane.INFORMATION_MESSAGE);
+					String Packaging = null;
+					String arr[] = new String[Size*3]; 
+					String money = Sum_Price.getText();
+					
+					if (hall.isSelected())
+						Packaging = "매장";
+					if (takeout.isSelected())
+						Packaging = "포장";
+					
+					for(int i = 0; i < Size; i++) {
+						arr[(3*i)] = Name[i].getText();
+						arr[1+(3*i)] = Count[i].getText();
+						arr[2+(3*i)] = Pr[i].getText();
+					}
+					
+					Record_save(money, Packaging, arr, Size);
+					
+					JOptionPane.showMessageDialog(null, "결제가 완료되었습니다.", "결제", JOptionPane.INFORMATION_MESSAGE);
+					Menu_Name.clear();
+					Price.clear();
+					Menu_Scroll.removeAll();
+					Sum = 0;
+					dispose();
+					JFrame OrderUI = new MainUI();
+					OrderUI.setVisible(true);
 				}
 				else JOptionPane.showMessageDialog(null, "매장 식사, 포장을 선택해주세요!", "결제", JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -248,6 +224,7 @@ public class PayUI extends JFrame {
 			}
 
 		});
+		
 		back.setBounds(12, 383, 100, 48);
 		contentPane.add(back);
 
@@ -265,16 +242,33 @@ public class PayUI extends JFrame {
 	}
 
 	public void make(JComponent c, int x, int y, int w, int h) {
-
 		gbc.gridx = x;
-
 		gbc.gridy = y;
-
 		gbc.gridwidth = w;
-
 		gbc.gridheight = h;
-
 		grid.setConstraints(c, gbc);
+	}
+	
+	protected void Record_save(String money, String Packaging, String arr[], int Size){
+		int total = Integer.parseInt(money);
+		
+		Record_DAO dao = new Record_DAO();
+		Record_DTO dto = new Record_DTO();	
+		
+		dto.setPrice(total);
+		dto.setPackaging(Packaging);
+		int seq = dao.Record_insert(dto);
+		
+		
+		for(int i = 0; i < Size; i++) {
+			int count = Integer.parseInt(arr[1+(3*i)]);
+			int price = Integer.parseInt(arr[2+(3*i)]);
 
+			dto.setName(arr[(3*i)]);
+			dto.setCount(count);
+			dto.setPrice(price);
+			dao.Detail_Record_insert(dto, seq);
+		}
+		
 	}
 }

@@ -29,7 +29,7 @@ public class Update_listUI {
 	private JFrame frame;
 	private JTable table;
 	
-	public Update_listUI() {
+	public Update_listUI(String name) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.BLACK);
 		frame.setTitle("메뉴수정");
@@ -96,7 +96,6 @@ public class Update_listUI {
 		table.getColumnModel().getColumn(2).setPreferredWidth(15);
 		table.getColumnModel().getColumn(3).setPreferredWidth(20);
 		table.getColumnModel().getColumn(4).setPreferredWidth(60);
-
 		
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer(); // 디폴트테이블셀렌더러를 생성
 	    dtcr.setHorizontalAlignment(SwingConstants.CENTER); // 렌더러의 가로정렬을 CENTER로
@@ -104,6 +103,38 @@ public class Update_listUI {
 	    TableColumnModel tcm = table.getColumnModel() ; // 정렬할 테이블의 컬럼모델을 가져옴
 	    for(int i = 0 ; i < tcm.getColumnCount() ; i++){
 	    	tcm.getColumn(i).setCellRenderer(dtcr);  
+	    }
+	    
+	    switch(name) {
+        case "미지정" :
+            break;
+            
+        case "커피" :
+        	Coffee_Button.setEnabled(false);
+    		Ade_Button.setEnabled(true);
+    		Tea_Button.setEnabled(true);
+    		model.setNumRows(0);
+    		String title = "커피";	
+    		Menu_show(title);
+            break;
+            
+        case "에이드" :
+        	Coffee_Button.setEnabled(true);
+    		Ade_Button.setEnabled(false);
+    		Tea_Button.setEnabled(true);
+    		model.setNumRows(0);
+    		String title2 = "에이드";	
+    		Menu_show(title2);
+            break;
+            
+        case "차" :
+        	Coffee_Button.setEnabled(true);
+    		Ade_Button.setEnabled(true);
+    		Tea_Button.setEnabled(false);
+    		model.setNumRows(0);
+    		String title3 = "차";	
+    		Menu_show(title3);
+            break;
 	    }
 		
 		Coffee_Button.addActionListener(new ActionListener() {
@@ -200,8 +231,4 @@ public class Update_listUI {
 		frame.setVisible(b);
 	}
 	
-	public static void main(String[] args) {
-		Update_listUI window = new Update_listUI();
-		window.frame.setVisible(true);
-	}
 }

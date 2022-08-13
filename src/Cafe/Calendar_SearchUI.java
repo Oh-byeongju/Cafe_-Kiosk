@@ -173,6 +173,12 @@ public class Calendar_SearchUI extends JFrame implements ActionListener{
                    		case "End_Pop":
                    			Popular_UI.setEndDay(result);
                    			break;
+                   		case "Start_Record":
+                   			Record_Search_UI.setStartDay(result);
+                   			break;
+                   		case "End_Record":
+                   			Record_Search_UI.setEndDay(result);
+                   			break;
                    }
                    dispose();
                    
