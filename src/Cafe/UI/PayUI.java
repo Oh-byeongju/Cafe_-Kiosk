@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.UI;
 
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Cafe.DAO.Record_DAO;
+import Cafe.DTO.Record_DTO;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;

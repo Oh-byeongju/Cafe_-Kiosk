@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;

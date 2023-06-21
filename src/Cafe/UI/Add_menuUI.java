@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.UI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -80,7 +80,7 @@ public class Add_menuUI extends JFrame {
 		contentPane.add(Caffeine2);
 		
 		// 뒤로가기 버튼
-		ImageIcon icon = new ImageIcon("./image/back.png");
+		ImageIcon icon = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\back.png");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(45, 44, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);

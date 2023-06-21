@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.UI;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,18 +21,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class Delete_listUI {
-	
+public class Update_listUI {
+
 	String headers[]={"메뉴이름", "가격", "카페인", "종류", "등록일"};
 	DefaultTableModel model = new DefaultTableModel (headers, 0);
-	
+
 	private JFrame frame;
 	private JTable table;
 	
-	public Delete_listUI() {
+	public Update_listUI(String name) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.BLACK);
-		frame.setTitle("메뉴삭제");
+		frame.setTitle("메뉴수정");
 		frame.setBounds(220, 130, 604, 439);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -58,12 +58,12 @@ public class Delete_listUI {
 		Tea_Button.setBounds(329, 40, 91, 45);
 		frame.getContentPane().add(Tea_Button);
 		
-		JButton Delete_Button = new JButton("삭제");
-		Delete_Button.setBackground(Color.WHITE);
-		Delete_Button.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		Delete_Button.setForeground(Color.BLACK);
-		Delete_Button.setBounds(452, 330, 91, 43);
-		frame.getContentPane().add(Delete_Button);
+		JButton Update_Button = new JButton("수정");
+		Update_Button.setBackground(Color.WHITE);
+		Update_Button.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		Update_Button.setForeground(Color.BLACK);
+		Update_Button.setBounds(452, 330, 91, 43);
+		frame.getContentPane().add(Update_Button);
 		
 		table = new JTable(model);
 		table.setBounds(60, 140, 463, 215);
@@ -80,7 +80,7 @@ public class Delete_listUI {
 		lblNewLabel.setBounds(40, 38, 48, 45);
 		frame.getContentPane().add(lblNewLabel);
 		
-		ImageIcon icon = new ImageIcon("./image/back.png");
+		ImageIcon icon = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\back.png");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(45, 44, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
@@ -96,7 +96,6 @@ public class Delete_listUI {
 		table.getColumnModel().getColumn(2).setPreferredWidth(15);
 		table.getColumnModel().getColumn(3).setPreferredWidth(20);
 		table.getColumnModel().getColumn(4).setPreferredWidth(60);
-
 		
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer(); // 디폴트테이블셀렌더러를 생성
 	    dtcr.setHorizontalAlignment(SwingConstants.CENTER); // 렌더러의 가로정렬을 CENTER로
@@ -104,6 +103,38 @@ public class Delete_listUI {
 	    TableColumnModel tcm = table.getColumnModel() ; // 정렬할 테이블의 컬럼모델을 가져옴
 	    for(int i = 0 ; i < tcm.getColumnCount() ; i++){
 	    	tcm.getColumn(i).setCellRenderer(dtcr);  
+	    }
+	    
+	    switch(name) {
+        case "미지정" :
+            break;
+            
+        case "커피" :
+        	Coffee_Button.setEnabled(false);
+    		Ade_Button.setEnabled(true);
+    		Tea_Button.setEnabled(true);
+    		model.setNumRows(0);
+    		String title = "커피";	
+    		Menu_show(title);
+            break;
+            
+        case "에이드" :
+        	Coffee_Button.setEnabled(true);
+    		Ade_Button.setEnabled(false);
+    		Tea_Button.setEnabled(true);
+    		model.setNumRows(0);
+    		String title2 = "에이드";	
+    		Menu_show(title2);
+            break;
+            
+        case "차" :
+        	Coffee_Button.setEnabled(true);
+    		Ade_Button.setEnabled(true);
+    		Tea_Button.setEnabled(false);
+    		model.setNumRows(0);
+    		String title3 = "차";	
+    		Menu_show(title3);
+            break;
 	    }
 		
 		Coffee_Button.addActionListener(new ActionListener() {
@@ -139,27 +170,18 @@ public class Delete_listUI {
 			}
 		});
 		
-		
-		Delete_Button.addActionListener(new ActionListener() {
+		Update_Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String [] tempStringrow = Delete_Menu();
-				
-				if (tempStringrow[0] == null) {
-					JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요!", "삭제", JOptionPane.INFORMATION_MESSAGE);
+				String[] tempStringRow = Update_Menu();
+				if (tempStringRow[0] == null) {
+					JOptionPane.showMessageDialog(null, "메뉴를 선택해주세요!", "수정", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
-				
-				String Name = tempStringrow[0];
-				String Type = tempStringrow[1];
-				
-				Menu_DAO dao = new Menu_DAO();
-				dao.Menu_delete(Name);
-				
-				model.setNumRows(0);
-				Menu_show(Type);
+				frame.dispose();
+				JFrame Update_menuUI = new Update_menuUI(tempStringRow);
+				Update_menuUI.setVisible(true);
 			}
 		});
-		
 		
 		Back_Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -171,7 +193,7 @@ public class Delete_listUI {
 	}
 	
 	protected void Menu_show(String title) {
-		
+				
 		Menu_DAO dao = new Menu_DAO();
 		ArrayList<Menu_DTO> result = dao.Menu_search(title);
 		String row[] = new String[5];
@@ -190,16 +212,17 @@ public class Delete_listUI {
 	    }
 	}
 	
-	protected String[] Delete_Menu() {
+	protected String[] Update_Menu() {
 		int number = table.getSelectedRow();
-		String row[] = new String[2];
-
+		String row[] = new String[4];
+		
 		if (number == -1) {
 	        return row;
 		}
 		
-		row[0] = (String) table.getValueAt(number, 0);
-		row[1] = (String) table.getValueAt(number, 3);
+		for (int i = 0; i < 4; i++) {
+			row[i] = (String) table.getValueAt(number, i);
+		}
 		
 		return row;
 	}
@@ -207,4 +230,5 @@ public class Delete_listUI {
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
+	
 }

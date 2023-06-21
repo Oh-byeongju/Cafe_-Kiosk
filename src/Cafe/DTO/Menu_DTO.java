@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.DTO;
 
 import java.sql.Date;
 

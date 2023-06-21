@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.DAO;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
+import Cafe.DTO.Record_DTO;
 
 public class Record_DAO {
 

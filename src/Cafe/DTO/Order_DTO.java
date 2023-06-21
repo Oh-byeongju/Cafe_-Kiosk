@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.DTO;
 
 public class Order_DTO {
 

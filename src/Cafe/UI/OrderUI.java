@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.UI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -88,7 +87,7 @@ public class OrderUI extends JFrame {
 		panel_1.setLayout(null);
 		
 		// 아메리카노 버튼
-		ImageIcon icon = new ImageIcon("./image/아메리카노.jpg");
+		ImageIcon icon = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\아메리카노.jpg");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(165, 151, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
@@ -105,7 +104,7 @@ public class OrderUI extends JFrame {
 		panel_1.add(lblNewLabel);
 		
 		// 에스프레소 버튼
-		ImageIcon icon1 = new ImageIcon("./image/에스프레소.jpg");
+		ImageIcon icon1 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\에스프레소.jpg");
 		Image img1 = icon1.getImage();
 		Image changeImg1 = img1.getScaledInstance(176, 167, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon1 = new ImageIcon(changeImg1);
@@ -122,7 +121,7 @@ public class OrderUI extends JFrame {
 		panel_1.add(lblNewLabel_1);
 		
 		// 카페라떼 버튼
-		ImageIcon icon2 = new ImageIcon("./image/아이스카페라떼.jpg");
+		ImageIcon icon2 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\아이스카페라떼.jpg");
 		Image img2 = icon2.getImage();
 		Image changeImg2 = img2.getScaledInstance(176, 167, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon2 = new ImageIcon(changeImg2);
@@ -139,7 +138,7 @@ public class OrderUI extends JFrame {
 		panel_1.add(lblNewLabel_3);
 
 		// 바닐라라떼 버튼
-		ImageIcon icon3 = new ImageIcon("./image/바닐라라떼.jpg");
+		ImageIcon icon3 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\바닐라라떼.jpg");
 		Image img3 = icon3.getImage();
 		Image changeImg3 = img3.getScaledInstance(176, 167, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon3 = new ImageIcon(changeImg3);
@@ -156,7 +155,7 @@ public class OrderUI extends JFrame {
 		panel_1.add(lblNewLabel_4);
 		
 		// 레몬에이드 버튼
-		ImageIcon icon4 = new ImageIcon("./image/레몬에이드.jpg");
+		ImageIcon icon4 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\레몬에이드.jpg");
 		Image img4 = icon4.getImage();
 		Image changeImg4 = img4.getScaledInstance(176, 167, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon4 = new ImageIcon(changeImg4);
@@ -175,7 +174,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_5.setVisible(false);
 	
 		// 청포도에이드 설명
-		ImageIcon icon5 = new ImageIcon("./image/청포도에이드.jpg");
+		ImageIcon icon5 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\청포도에이드.jpg");
 		Image img5 = icon5.getImage();
 		Image changeImg5 = img5.getScaledInstance(250, 176, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon5 = new ImageIcon(changeImg5);
@@ -194,7 +193,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_6.setVisible(false);
 		
 		// 자몽에이드 버튼
-		ImageIcon icon6 = new ImageIcon("./image/자몽에이드.jpg");
+		ImageIcon icon6 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\자몽에이드.jpg");
 		Image img6 = icon6.getImage();
 		Image changeImg6 = img6.getScaledInstance(220, 170, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon6 = new ImageIcon(changeImg6);
@@ -213,7 +212,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_7.setVisible(false);
 			
 		// 체리콕 버튼
-		ImageIcon icon7 = new ImageIcon("./image/체리콕.jpg");
+		ImageIcon icon7 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\체리콕.jpg");
 		Image img7 = icon7.getImage();
 		Image changeImg7 = img7.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon7 = new ImageIcon(changeImg7);
@@ -232,7 +231,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_8.setVisible(false);
 		
 		// 아이스티 버튼
-		ImageIcon icon8 = new ImageIcon("./image/아이스티6.jpg");
+		ImageIcon icon8 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\아이스티6.jpg");
 		Image img8 = icon8.getImage();
 		Image changeImg8 = img8.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon8 = new ImageIcon(changeImg8);
@@ -251,7 +250,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_9.setVisible(false);
 		
 		//유자차 버튼
-		ImageIcon icon9 = new ImageIcon("./image/유자차.jpg");
+		ImageIcon icon9 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\유자차.jpg");
 		Image img9 = icon9.getImage();
 		Image changeImg9 = img9.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon9 = new ImageIcon(changeImg9);
@@ -270,7 +269,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_10.setVisible(false);
 		
 		// 캐모마일 버튼
-		ImageIcon icon10 = new ImageIcon("./image/캐모마일.jpg");
+		ImageIcon icon10 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\캐모마일.jpg");
 		Image img10 = icon10.getImage();
 		Image changeImg10 = img10.getScaledInstance(230, 170, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon10 = new ImageIcon(changeImg10);
@@ -289,7 +288,7 @@ public class OrderUI extends JFrame {
 		lblNewLabel_11.setVisible(false);
 		
 		// 페퍼민트 버튼
-		ImageIcon icon11 = new ImageIcon("./image/페퍼민트.jpg");
+		ImageIcon icon11 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\페퍼민트.jpg");
 		Image img11 = icon11.getImage();
 		Image changeImg11 = img11.getScaledInstance(230, 170, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon11 = new ImageIcon(changeImg11);

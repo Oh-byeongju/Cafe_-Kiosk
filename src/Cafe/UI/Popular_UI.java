@@ -1,12 +1,10 @@
-package Cafe;
+package Cafe.UI;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -21,19 +19,22 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-public class Sales_SearchUI {
+import Cafe.DAO.Record_DAO;
+import Cafe.DTO.Record_DTO;
+
+public class Popular_UI {
 
 	private JFrame frame;
 	private static JTextField StartDay;
 	private static JTextField EndDay;
-	String headers[]={"주문일시", "주문횟수", "합계"};
+	String headers[]={"순위", "메뉴이름", "판매횟수"};
 	DefaultTableModel model = new DefaultTableModel (headers, 0);
 	private JTable table;
 	
-	public Sales_SearchUI() {
+	public Popular_UI() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.BLACK);
-		frame.setTitle("매출조회");
+		frame.setTitle("인기메뉴조회");
 		frame.setBounds(220, 130, 544, 409);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -66,7 +67,7 @@ public class Sales_SearchUI {
 		EndDay_lbl.setBackground(Color.WHITE);
 		frame.getContentPane().add(EndDay_lbl);
 		
-		ImageIcon icon = new ImageIcon("./image/calendar.png");
+		ImageIcon icon = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\calendar.png");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(28, 25, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
@@ -83,7 +84,7 @@ public class Sales_SearchUI {
 		frame.getContentPane().add(Open_Cal2);
 		
 		table = new JTable(model);
-		table.setBounds(60, 140, 463, 215);
+		table.setBounds(60, 100, 463, 215);
 		table.setBackground(new Color(255, 255, 255));
 		table.setFont(new Font("휴먼매직체", Font.BOLD, 20));
 		table.setRowHeight(45);		
@@ -91,8 +92,8 @@ public class Sales_SearchUI {
 		scrollPane.setBounds(48, 95, 403, 193);
 		frame.getContentPane().add(scrollPane);
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(60);  //JTable 의 컬럼 길이 조절
-		table.getColumnModel().getColumn(1).setPreferredWidth(10);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);  //JTable 의 컬럼 길이 조절
+		table.getColumnModel().getColumn(1).setPreferredWidth(60);
 		table.getColumnModel().getColumn(2).setPreferredWidth(20);
 		
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer(); // 디폴트테이블셀렌더러를 생성
@@ -109,19 +110,7 @@ public class Sales_SearchUI {
 		SearchButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
 		frame.getContentPane().add(SearchButton);
 		
-		JLabel lblNewLabel = new JLabel("전체 합계 :");
-		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 15));
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(279, 311, 86, 22);
-		frame.getContentPane().add(lblNewLabel);
-		
-		JLabel Total = new JLabel("");
-		Total.setFont(new Font("굴림", Font.BOLD, 15));
-		Total.setForeground(Color.WHITE);
-		Total.setBounds(365, 311, 66, 22);
-		frame.getContentPane().add(Total);
-		
-		ImageIcon icon2 = new ImageIcon("./image/back.png");
+		ImageIcon icon2 = new ImageIcon("C:\\Users\\OBJ\\PROJECT\\Cafe_Kiosk\\image\\back.png");
 		Image img2 = icon2.getImage();
 		Image changeImg2 = img2.getScaledInstance(45, 44, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon2 = new ImageIcon(changeImg2);
@@ -135,7 +124,7 @@ public class Sales_SearchUI {
 		
 		Open_Cal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String type = "Start_Sale";
+				String type = "Start_Pop";
 				Calendar_SearchUI Calendar_Search = new Calendar_SearchUI(type);
 				Calendar_Search.setVisible(true);
 			}		
@@ -143,7 +132,7 @@ public class Sales_SearchUI {
 		
 		Open_Cal2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String type = "End_Sale";
+				String type = "End_Pop";
 				Calendar_SearchUI Calendar_Search = new Calendar_SearchUI(type);
 				Calendar_Search.setVisible(true);
 			}		
@@ -162,8 +151,7 @@ public class Sales_SearchUI {
 				model.setNumRows(0);
 				String Start = StartDay.getText();
 				String End = EndDay.getText();
-				String Total_Price = Record_show(Start, End);
-				Total.setText(Total_Price);
+				Record_show(Start, End);
 			}		
 		});
 	}
@@ -180,32 +168,22 @@ public class Sales_SearchUI {
 		EndDay.setText(End);
 	}
 	
-	protected String Record_show(String Start, String End) {
+	protected void Record_show(String Start, String End) {
 		
 		Record_DAO dao = new Record_DAO();
-		ArrayList<Record_DTO> result = dao.Menu_search(Start, End);
+		ArrayList<Record_DTO> result = dao.Menu_search2(Start, End);
 		String row[] = new String[3];
-		SimpleDateFormat fmt=new SimpleDateFormat("yy-MM-dd");
-		int Total = 0;
-		String result_Total = "";
 		
 		for (Record_DTO i : result) {
-			Date temp_date = i.getRecord_Date();
+			int temp_rank = i.getRank();
 			int temp_count = i.getCount();
-			int temp_total = i.getTotal();
 			
-			Total += temp_total;
-			
-			row[0] = fmt.format(temp_date);
-	    	row[1] = Integer.toString(temp_count);
-	    	row[2] = Integer.toString(temp_total);
+			row[0] = Integer.toString(temp_rank);
+	    	row[1] = i.getName();
+	    	row[2] = Integer.toString(temp_count);
 	    	
 	    	model.addRow(row);
 	    }
-		
-		result_Total = Integer.toString(Total);
-		return result_Total;
 	}
-}
-	
 
+}

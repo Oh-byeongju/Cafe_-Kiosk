@@ -1,4 +1,4 @@
-package Cafe;
+package Cafe.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
+import Cafe.DTO.Menu_DTO;
+
 import java.sql.Date;
 
 public class Menu_DAO {
